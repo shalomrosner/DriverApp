@@ -1,6 +1,5 @@
-package il.co.bat.shlomi.javaproject.model.entities;
+package com.example.shalom.driverapp.model.entities;
 
-import android.content.ContentValues;
 import android.location.Location;
 
 import java.sql.Time;
@@ -16,7 +15,7 @@ public class Ride {
     String email;
     String driverId;
 
-    public Ride(TypeOfRide typeOfRide, Location startLocation, Location endLocation, Time startTime, Time endTime, String name, String celNumber, String email,String driverId) {
+    public Ride(TypeOfRide typeOfRide, Location startLocation, Location endLocation, Time startTime, Time endTime, String name, String celNumber, String email, String driverId) {
         this.typeOfRide = typeOfRide;
         this.startLocation = startLocation;
         this.endLocation = endLocation;
