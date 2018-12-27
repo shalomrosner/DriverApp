@@ -55,8 +55,8 @@ public class DBManagerFactory implements IDBManager {
     }
 
     @Override
-    public void getNotYetTreatedRides() {
-
+    public List<Ride> getNotYetTreatedRides() {
+       
     }
 
     @Override
