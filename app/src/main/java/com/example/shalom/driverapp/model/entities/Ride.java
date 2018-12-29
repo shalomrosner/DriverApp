@@ -3,13 +3,14 @@ package com.example.shalom.driverapp.model.entities;
 import android.location.Location;
 
 import java.sql.Time;
+import java.util.Date;
 
 public class Ride {
     TypeOfRide typeOfRide;
     Location startLocation;
     Location endLocation;
-    Time startTime;
-    Time endTime;
+    Date startTime;
+    Date endTime;
     String name;
     String celNumber;
     String email;
@@ -48,7 +49,6 @@ public class Ride {
         this.endLocation = endLocation;
     }
 
-
     public TypeOfRide getTypeOfRide() {
         return typeOfRide;
     }
@@ -58,19 +58,19 @@ public class Ride {
     }
 
 
-    public Time getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 

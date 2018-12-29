@@ -6,7 +6,7 @@ public class Driver {
     String id;
     String celNumber;
     String email;
-
+    String bankAccountNumber;
     public Driver(String firstName, String lastName, String id, String celNumber, String email, String bankAccountNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -64,8 +64,6 @@ public class Driver {
     public void setBankAccountNumber(String bankAccountNumber) {
         this.bankAccountNumber = bankAccountNumber;
     }
-
-    String bankAccountNumber;
 
 
 }

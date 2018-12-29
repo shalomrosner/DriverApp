@@ -29,7 +29,7 @@
                 android:src="@drawable/taxi_login" />
 
             <EditText
-                android:id="@+id/Email"
+                android:id="@+id/username_s"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="70dp"
@@ -49,7 +49,7 @@
                 android:background="#f9d7db" />
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/password_s"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -69,14 +69,14 @@
                 android:background="#f9d7db" />
 
             <CheckBox
-                android:id="@+id/Remember_me_CheckBox "
+                android:id="@+id/remember_me_CheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:padding="8dp"
                 android:text="Remember me "
                 android:textColor="#fff" />
-            z
+
 
             <Button
 
@@ -93,7 +93,7 @@
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/sign_up_button"
+                android:id="@+id/sign_up_button_s"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
