@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">DriverApp</string>
-    <string name="username">Username</string>
     <string name="log_in">Log in</string>
     <string name="sign_up">Sign up</string>
     <string name="title_activity_main">MainActivity</string>
@@ -10,4 +9,27 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="fill_email">please fill the email field!</string>
+
+    <string name="contains">the email must contains @</string>
+
+    <string name="fill_id">please fill the id number field!</string>
+
+    <string name="fill_password">please fill the password field!</string>
+
+    <string name="fill_userName">please fill the user name field!</string>
+
+    <string name="fill_creditCard">please fill the credit card field!</string>
+
+    <string name="fill_phone">please fill the phone field!</string>
+    <string name="Extract_id">this id not exists</string>
+
+    <string name="length_id">the id length must be 9</string>
+
+    <string name="length_phone">the length of the phone number does not make sense</string>
+
+    <string name="length_password">the password must be longer then five letters</string>
+
+    <string name="remember_me">remember me!</string>
+    <string name="username">Username</string>
 </resources>

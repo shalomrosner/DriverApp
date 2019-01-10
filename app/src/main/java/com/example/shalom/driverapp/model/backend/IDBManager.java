@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface IDBManager {
-    void addDriver(final Driver driver);
+    Void addDriver(final Driver driver);
     List<Ride> getNotTreatedRides();
     List<Ride> getFinishedRides();
     List<Ride> getDriversRides(Driver driver);

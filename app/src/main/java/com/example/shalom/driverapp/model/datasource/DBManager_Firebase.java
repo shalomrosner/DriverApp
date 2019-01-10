@@ -33,7 +33,7 @@ public class DBManager_Firebase implements IDBManager {
 
     private static DatabaseReference RidesRef, DriversRef;
     static List<Ride> rideList;
-    static List<Driver> driverList;
+    public static List<Driver> driverList;
 
     static {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -42,10 +42,12 @@ public class DBManager_Firebase implements IDBManager {
         rideList = new ArrayList<>();
         driverList = new ArrayList<>();
     }
+
     @Override
-    public void addDriver(final Driver driver) {
+    public Void addDriver(final Driver driver) {
         String key = driver.getId();
         DriversRef.child(key).setValue(driver);
+        return null;
     }
 
     @Override
@@ -189,6 +191,89 @@ public class DBManager_Firebase implements IDBManager {
         if (rideRefChildEventListener != null) {
             RidesRef.removeEventListener(rideRefChildEventListener);
             rideRefChildEventListener = null;
+        }
+    }
+
+
+    private static ChildEventListener driverRefChildEventListener;
+
+    public static void notifyToDriverList(final NotifyDataChange<List<Driver>> notifyDataChange) {
+        if (notifyDataChange != null) {
+            if (driverRefChildEventListener != null) {
+                notifyDataChange.onFailure(new Exception("first unNotify driver list"));
+                return;
+            }
+            driverList.clear();
+
+            driverRefChildEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Driver driver = dataSnapshot.getValue(Driver.class);
+                    String id = dataSnapshot.getKey();
+                    try {
+                        driver.setId(id);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    driverList.add(driver);
+                    notifyDataChange.OnDataChanged(driverList);
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    Driver driver = dataSnapshot.getValue(Driver.class);
+                    String id = dataSnapshot.getKey();
+                    try {
+                        driver.setId(id);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    for (int i = 0; i < driverList.size(); i++) {
+                        if (driverList.get(i).getId().equals(id)) {
+                            driverList.set(i, driver);
+                            break;
+                        }
+                    }
+                    notifyDataChange.OnDataChanged(driverList);
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    Driver driver = dataSnapshot.getValue(Driver.class);
+                    String id = dataSnapshot.getKey();
+                    try {
+                        driver.setId(id);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    for (int i = 0; i < driverList.size(); i++) {
+                        if (driverList.get(i).getId() == id) {
+                            driverList.remove(i);
+                            break;
+                        }
+                    }
+                    notifyDataChange.OnDataChanged(driverList);
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    notifyDataChange.onFailure(databaseError.toException());
+                }
+            };
+
+
+            DriversRef.addChildEventListener(driverRefChildEventListener);
+        }
+    }
+
+    public static void stopNotifyToDriverList() {
+        if (driverRefChildEventListener != null) {
+            DriversRef.removeEventListener(driverRefChildEventListener);
+            driverRefChildEventListener = null;
         }
     }
 }
