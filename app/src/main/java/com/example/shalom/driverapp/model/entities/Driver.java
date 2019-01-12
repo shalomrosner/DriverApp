@@ -1,6 +1,7 @@
 package com.example.shalom.driverapp.model.entities;
 
 import android.location.Location;
+import android.util.Patterns;
 
 import com.example.shalom.driverapp.R;
 
@@ -75,18 +76,22 @@ public class Driver {
     }
 
     public void setCelNumber(String celNumber) throws Exception {
-        if (celNumber.length() == 9 || celNumber.length() == 10)
+        if (Patterns.PHONE.matcher(celNumber).matches())
             this.celNumber = celNumber;
 
         else
-            throw new Exception(String.valueOf(R.string.length_phone));
+            throw new Exception(String.valueOf(R.string.error_phone));
     }
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String email) throws Exception {
+        if (Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            this.email = email;
+        else
+            throw new Exception(String.valueOf(R.string.error_email));
+
     }
 
     public String getBankAccountNumber() {

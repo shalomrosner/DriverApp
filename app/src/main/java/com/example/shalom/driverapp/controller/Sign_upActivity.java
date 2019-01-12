@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +44,7 @@ public class Sign_upActivity extends AppCompatActivity implements View.OnClickLi
         btnRegister = (Button) findViewById(R.id.Sign_up_button);
         btnRegister.setOnClickListener(this);
         auth = FirebaseAuth.getInstance();
+
     }
 
     private boolean validateEmail() {
@@ -53,11 +55,11 @@ public class Sign_upActivity extends AppCompatActivity implements View.OnClickLi
             email.requestFocus();
             Toast.makeText(this, getString(R.string.fill_email), Toast.LENGTH_LONG).show();
             return false;
-        } else if (!emailInput.contains("@")) {
+        } else if (Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
             //  id.setErrorEnabled(true);
             id.setError(getString(R.string.contains));
             email.requestFocus();
-            Toast.makeText(this, getString(R.string.contains), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.error_email, Toast.LENGTH_LONG).show();
             return false;
         } else {
             //  email.setErrorEnabled(false);
@@ -140,7 +142,10 @@ public class Sign_upActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private boolean validatePhone() {
+
         String phoneInput = phoneNumber.getText().toString();
+        ;
+
         if (phoneInput.isEmpty()) {
             phoneNumber.setError(getString(R.string.fill_phone));
             phoneNumber.requestFocus();
@@ -148,11 +153,11 @@ public class Sign_upActivity extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(this, getString(R.string.fill_phone), Toast.LENGTH_LONG).show();
             return false;
         }
-        else if (phoneInput.length() != 9 && phoneInput.length() != 10) {
-            phoneNumber.setError(getString(R.string.length_phone));
+        else if (Patterns.PHONE.matcher(phoneInput).matches()) {
+            phoneNumber.setError(getString(R.string.error_phone));
             phoneNumber.requestFocus();
             //   phoneNumber.setErrorEnabled(true);
-            Toast.makeText(this, getString(R.string.length_phone), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_phone), Toast.LENGTH_LONG).show();
             return false;
         } else {
             //  phoneNumber.setErrorEnabled(false);
@@ -187,7 +192,11 @@ public class Sign_upActivity extends AppCompatActivity implements View.OnClickLi
         } catch (Exception e) {
             e.printStackTrace();
         }
-        driver.setEmail(newEmail);
+        try {
+            driver.setEmail(newEmail);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             driver.setCelNumber(newPhoneNumber);
         } catch (Exception e) {

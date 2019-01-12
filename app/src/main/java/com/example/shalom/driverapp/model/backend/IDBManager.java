@@ -16,6 +16,6 @@ public interface IDBManager {
     List<Ride> getNotYetTreatedRidesWithGivenDest(Location destCity);
     List<Ride> getRidesByDate(Date date);
     List<Ride> getNotYetTreatedRidesWithGivenInDistance(Location drivers_given, float given_distance);
-    List<Ride> getRidesByPrice();
+    List<Ride> getRidesByPrice(float price);
 
 }

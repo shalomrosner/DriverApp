@@ -119,10 +119,18 @@ public class DBManager_Firebase implements IDBManager {
 
 
     @Override
-    public List<Ride> getRidesByPrice() {
+    public List<Ride> getRidesByPrice(float price) {
 
-        return null;
+        List<Ride> RidesByPrice = getNotTreatedRides();
+        for (Ride ride : RidesByPrice) {
+            double ridepay = (ride.getStartLocation().distanceTo(ride.getEndLocation()) / 1000) * 5;
+            if (ridepay != price)
+                RidesByPrice.remove(ride);
+        }
+        return RidesByPrice;
     }
+
+
 
     private static ChildEventListener rideRefChildEventListener;
 

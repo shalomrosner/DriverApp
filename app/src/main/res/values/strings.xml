@@ -26,10 +26,14 @@
 
     <string name="length_id">the id length must be 9</string>
 
-    <string name="length_phone">the length of the phone number does not make sense</string>
+    <string name="error_phone">the phone number does not exist</string>
 
     <string name="length_password">the password must be longer then five letters</string>
 
     <string name="remember_me">remember me!</string>
     <string name="username">Username</string>
+    <string name="error_email">Error E-Mail is invalid</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
