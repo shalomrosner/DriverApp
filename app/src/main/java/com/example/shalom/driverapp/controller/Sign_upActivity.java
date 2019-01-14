@@ -55,7 +55,7 @@ public class Sign_upActivity extends AppCompatActivity implements View.OnClickLi
             email.requestFocus();
             Toast.makeText(this, getString(R.string.fill_email), Toast.LENGTH_LONG).show();
             return false;
-        } else if (Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
             //  id.setErrorEnabled(true);
             id.setError(getString(R.string.contains));
             email.requestFocus();
@@ -153,7 +153,7 @@ public class Sign_upActivity extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(this, getString(R.string.fill_phone), Toast.LENGTH_LONG).show();
             return false;
         }
-        else if (Patterns.PHONE.matcher(phoneInput).matches()) {
+        else if (!Patterns.PHONE.matcher(phoneInput).matches()) {
             phoneNumber.setError(getString(R.string.error_phone));
             phoneNumber.requestFocus();
             //   phoneNumber.setErrorEnabled(true);
@@ -165,7 +165,8 @@ public class Sign_upActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    public void confirmInput(View v) {
+
+        public void confirmInput(View v) {
         if (!validateFullName() || !validateId() || !validatePhone() || !validateEmail() || !validateCreditCard() || !validatePassword())
             return;
         else

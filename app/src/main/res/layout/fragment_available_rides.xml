@@ -6,9 +6,26 @@
     tools:context=".controller.availableRidesFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:drawableRight="@drawable/ic_search"
+        android:hint="search"
+        android:textIsSelectable="true"
+        android:textSize="30sp"
+        android:textStyle="italic" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
+        <ExpandableListView
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="48dp" />
+    </LinearLayout>
 </FrameLayout>

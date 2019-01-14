@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -55,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             etEmail.requestFocus();
             Toast.makeText(this, getString(R.string.fill_email), Toast.LENGTH_LONG).show();
             return false;
-        } else if (!emailInput.contains("@")) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
             //  id.setErrorEnabled(true);
             // id.setError(getString(R.string.contains));
             etEmail.requestFocus();
@@ -128,11 +129,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             {
                 etEmail.setText(preferences.getString(userNameS, ""));
                 etPassword.setText(preferences.getString(passwordS, ""));
-
+                rememberMeCheckBox.setChecked(preferences.getBoolean(rememberMeS, false));
                 loginButton.setEnabled(true);
             }
         } else {
-            loginButton.setEnabled(false);
+         //   loginButton.setEnabled(false);
             return;
         }
     }
@@ -146,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(userNameS, n);
             editor.putString(passwordS, p);
-            editor.putString(rememberMeS, p);
+            editor.putBoolean(rememberMeS , c);
             editor.commit();
 
         }
