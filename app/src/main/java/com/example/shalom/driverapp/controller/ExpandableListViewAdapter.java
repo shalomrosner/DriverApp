@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.TextView;
 
 import com.example.shalom.driverapp.R;
 import com.example.shalom.driverapp.model.backend.CurrentLocation;
@@ -73,18 +75,48 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         Ride ride = (Ride) getGroup(groupPosition);
+        ExpandableListViewAdapter.ViewHolder viewHolder;
         if (convertView == null) {
+            viewHolder=new ExpandableListViewAdapter.ViewHolder();
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.fragment_available_rides, null);
+            convertView = layoutInflater.inflate(R.layout.expandable_list_group, null);
+            viewHolder.passenger_location = (TextView) convertView.findViewById(R.id.passenger_location);
+            viewHolder.distance = (TextView) convertView.findViewById(R.id.distance);
+            convertView.setTag(viewHolder);
 
         }
+        else {
+            viewHolder= (ExpandableListViewAdapter.ViewHolder)(convertView.getTag());
+        }
+        viewHolder.passenger_location.setText(location.getPlace(ride.getStartLocation(),context));
         float distnace= ride.getStartLocation().distanceTo(driversLocation);
-        return null;
+        viewHolder.distance.setText(String.valueOf( distnace));
+
+        return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        return null;
+        Ride ride = (Ride) getChild(groupPosition,childPosition);
+        ExpandableListViewAdapter.ViewHolder2 viewHolder2;
+        if (convertView == null) {
+            viewHolder2=new ExpandableListViewAdapter.ViewHolder2();
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.ride_item, null);
+            viewHolder2.full_name = (TextView) convertView.findViewById(R.id.passenger_location);
+            viewHolder2.idNumber = (TextView) convertView.findViewById(R.id.distance);
+            viewHolder2.callButton = (Button) convertView.findViewById(R.id.distance);
+            viewHolder2.emailButton = (Button) convertView.findViewById(R.id.distance);
+            viewHolder2.messageButton = (Button) convertView.findViewById(R.id.distance);
+
+            convertView.setTag(viewHolder2);
+
+        }
+        else {
+            viewHolder2= (ExpandableListViewAdapter.ViewHolder2)(convertView.getTag());
+        }
+
+        return convertView;
     }
 
     @Override
@@ -125,6 +157,18 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
 
         };
     }
-
+    public class ViewHolder {
+        TextView passenger_location;
+        TextView distance;
+    }
+    public class ViewHolder2 {
+        TextView full_name;
+        TextView idNumber;
+        TextView source;
+        Button callButton;
+        Button messageButton;
+        Button emailButton;
+        Button startButton;
+    }
 }
 
