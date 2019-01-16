@@ -91,7 +91,12 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_date) {
 
-        } else if (id == R.id.nav_distance) {
+        }
+        else if (id == R.id.nav_distance) {
+            availableRidesFragment availableRidesFragment = new availableRidesFragment();
+
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,availableRidesFragment).commit();
 
         }
 

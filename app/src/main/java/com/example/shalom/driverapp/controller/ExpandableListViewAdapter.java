@@ -22,14 +22,12 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
     private Context context;
     private List<Ride> originalRideList;
     private List<Ride> rideList;
-    private String id;
     private CurrentLocation location;
     private Location driversLocation;
 
-    public ExpandableListViewAdapter(Context context, List<Ride> rideList, String id) {
+    public ExpandableListViewAdapter(Context context, List<Ride> rideList) {
         this.context = context;
         this.rideList = rideList;
-        this.id = id;
         this.originalRideList = rideList;
         this.location = new CurrentLocation();
         this.driversLocation = location.getLocation();
@@ -97,31 +95,65 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Ride ride = (Ride) getChild(groupPosition,childPosition);
-        ExpandableListViewAdapter.ViewHolder2 viewHolder2;
+        final Ride ride = (Ride) getChild(groupPosition,childPosition);
+        final ExpandableListViewAdapter.ViewHolder2 viewHolder2;
         if (convertView == null) {
             viewHolder2=new ExpandableListViewAdapter.ViewHolder2();
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.ride_item, null);
-            viewHolder2.full_name = (TextView) convertView.findViewById(R.id.passenger_location);
-            viewHolder2.idNumber = (TextView) convertView.findViewById(R.id.distance);
-            viewHolder2.callButton = (Button) convertView.findViewById(R.id.distance);
-            viewHolder2.emailButton = (Button) convertView.findViewById(R.id.distance);
-            viewHolder2.messageButton = (Button) convertView.findViewById(R.id.distance);
-
+            viewHolder2.full_name = (TextView) convertView.findViewById(R.id.Name);
+            viewHolder2.phoneNumber= (TextView) convertView.findViewById(R.id.phone);
+            viewHolder2.dest = (TextView) convertView.findViewById(R.id.destination);
+            viewHolder2.callButton = (Button) convertView.findViewById(R.id.call_ButtonID);
+            viewHolder2.messageButton = (Button) convertView.findViewById(R.id.message_ButtonID);
+            viewHolder2.takeRideButton = (Button) convertView.findViewById(R.id.take_ButtonID);
             convertView.setTag(viewHolder2);
-
         }
         else {
             viewHolder2= (ExpandableListViewAdapter.ViewHolder2)(convertView.getTag());
         }
-
+        viewHolder2.dest.setText(location.getPlace(ride.getEndLocation(),context));
+        viewHolder2.phoneNumber.setText(ride.getCelNumber());
+        viewHolder2.full_name.setText(ride.getName());
+        viewHolder2.callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder2.messageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+            }
+        });
+        viewHolder2.messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder2.messageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+            }
+        });
+        viewHolder2.takeRideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder2.takeRideButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+            }
+        });
         return convertView;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+    public void resetToPreList() {
+        rideList = originalRideList;
     }
 
     @Override
@@ -163,12 +195,12 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
     }
     public class ViewHolder2 {
         TextView full_name;
-        TextView idNumber;
-        TextView source;
+        TextView phoneNumber;
+        TextView dest;
         Button callButton;
         Button messageButton;
         Button emailButton;
-        Button startButton;
+        Button takeRideButton;
     }
 }
 

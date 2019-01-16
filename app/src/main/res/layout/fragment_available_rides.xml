@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.availableRidesFragment">
+    tools:context=".controller.MainActivity"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/distance_filter"
         android:layout_width="match_parent"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
         android:drawableRight="@drawable/ic_search"
         android:hint="search"
-        android:textIsSelectable="true"
         android:textSize="30sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:inputType="numberDecimal"
+        android:iconifiedByDefault="false"/>
 
-    <LinearLayout
+
+
+
+    <ExpandableListView
+        android:id="@+id/ride_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <ExpandableListView
-            android:id="@+id/lv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="48dp" />
-    </LinearLayout>
-</FrameLayout>
+        android:layout_marginTop="48dp" />
+</LinearLayout>
