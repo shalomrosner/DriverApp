@@ -32,15 +32,13 @@ public class DBManager_Firebase implements IDBManager {
     }
 
     private static DatabaseReference RidesRef, DriversRef;
-    static List<Ride> rideList;
-    public static List<Driver> driverList;
+    public  List<Ride> rideList= new ArrayList<>();
+    public  List<Driver> driverList= new ArrayList<>();
 
     static {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         RidesRef = database.getReference("rides");
         DriversRef = database.getReference("drivers");
-        rideList = new ArrayList<>();
-        driverList = new ArrayList<>();
     }
 
     @Override
@@ -52,12 +50,22 @@ public class DBManager_Firebase implements IDBManager {
 
     @Override
     public List<Ride> getNotTreatedRides() {
-        List<Ride> NotTreatedRides = new ArrayList<>();
-        for (Ride ride : rideList) {
-            if (ride.getTypeOfRide() == TypeOfRide.available)
-                NotTreatedRides.add(ride);
-        }
-        return NotTreatedRides;
+        boolean flag = true;
+        notifyToRideList(new NotifyDataChange<List<Ride>>() {
+            @Override
+            public void OnDataChanged(List<Ride> notifyRides) {
+                rideList = notifyRides;
+                for (Ride ride : rideList) {
+                    if (ride.getTypeOfRide() != TypeOfRide.available)
+                        rideList.remove(ride);
+                }
+            }
+            @Override
+            public void onFailure(Exception exception) {
+
+            }
+        });
+        return rideList;
     }
 
     @Override
@@ -130,11 +138,36 @@ public class DBManager_Firebase implements IDBManager {
         return RidesByPrice;
     }
 
+    @Override
+    public void rideIsBeingTreated(Ride ride) throws Exception {
+        if (ride.getTypeOfRide() == TypeOfRide.available)
+            ride.setTypeOfRide(TypeOfRide.occupied);
+        else
+            throw new Exception("the ride is not available!");
+    }
+    @Override
+    public void rideIsFinished(Ride ride) throws Exception {
+        if (ride.getTypeOfRide() == TypeOfRide.occupied)
+            ride.setTypeOfRide(TypeOfRide.finished);
+        else
+            throw new Exception("the ride has not started!");
+    }
+
+    @Override
+    public Void updateRide(final Ride toUpdate) {
+        final String key = (toUpdate.getCelNumber());
+        RidesRef.child(key).setValue(toUpdate);
+        return null;
+    }
 
 
-    private static ChildEventListener rideRefChildEventListener;
 
-    public static void notifyToRideList(final NotifyDataChange<List<Ride>> notifyDataChange) {
+
+
+
+    private  ChildEventListener rideRefChildEventListener;
+
+    public  void notifyToRideList(final NotifyDataChange<List<Ride>> notifyDataChange) {
         if (notifyDataChange != null) {
             if (rideRefChildEventListener != null) {
                 notifyDataChange.onFailure(new Exception("first unNotify ride list"));
@@ -146,8 +179,8 @@ public class DBManager_Firebase implements IDBManager {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Ride ride = dataSnapshot.getValue(Ride.class);
-                    String email = dataSnapshot.getKey();
-                    ride.setEmail(email);
+                    String cel = dataSnapshot.getKey();
+                    ride.setCelNumber(cel);
                     rideList.add(ride);
                     notifyDataChange.OnDataChanged(rideList);
                 }
@@ -155,10 +188,10 @@ public class DBManager_Firebase implements IDBManager {
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     Ride ride = dataSnapshot.getValue(Ride.class);
-                    String email = dataSnapshot.getKey();
-                    ride.setEmail(email);
+                    String cel = dataSnapshot.getKey();
+                    ride.setCelNumber(cel);
                     for (int i = 0; i < rideList.size(); i++) {
-                        if (rideList.get(i).getEmail().equals(email)) {
+                        if (rideList.get(i).getCelNumber().equals(cel)) {
                             rideList.set(i, ride);
                             break;
                         }
@@ -169,10 +202,10 @@ public class DBManager_Firebase implements IDBManager {
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
                     Ride ride = dataSnapshot.getValue(Ride.class);
-                    String email = dataSnapshot.getKey();
-                    ride.setEmail(email);
+                    String cel = dataSnapshot.getKey();
+                    ride.setCelNumber(cel);
                     for (int i = 0; i < rideList.size(); i++) {
-                        if (rideList.get(i).getEmail() == email) {
+                        if (rideList.get(i).getCelNumber() == cel) {
                             rideList.remove(i);
                             break;
                         }
@@ -195,7 +228,7 @@ public class DBManager_Firebase implements IDBManager {
         }
     }
 
-    public static void stopNotifyToRideList() {
+    public  void stopNotifyToRideList() {
         if (rideRefChildEventListener != null) {
             RidesRef.removeEventListener(rideRefChildEventListener);
             rideRefChildEventListener = null;
@@ -203,9 +236,9 @@ public class DBManager_Firebase implements IDBManager {
     }
 
 
-    private static ChildEventListener driverRefChildEventListener;
+    private  ChildEventListener driverRefChildEventListener;
 
-    public static void notifyToDriverList(final NotifyDataChange<List<Driver>> notifyDataChange) {
+    public  void notifyToDriverList(final NotifyDataChange<List<Driver>> notifyDataChange) {
         if (notifyDataChange != null) {
             if (driverRefChildEventListener != null) {
                 notifyDataChange.onFailure(new Exception("first unNotify driver list"));
@@ -278,7 +311,7 @@ public class DBManager_Firebase implements IDBManager {
         }
     }
 
-    public static void stopNotifyToDriverList() {
+    public  void stopNotifyToDriverList() {
         if (driverRefChildEventListener != null) {
             DriversRef.removeEventListener(driverRefChildEventListener);
             driverRefChildEventListener = null;

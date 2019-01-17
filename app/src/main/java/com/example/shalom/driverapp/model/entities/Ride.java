@@ -1,14 +1,14 @@
 package com.example.shalom.driverapp.model.entities;
 
-import android.location.Location;
+import com.example.shalom.driverapp.model.backend.MyLocation;
 
 import java.sql.Time;
 import java.util.Date;
 
 public class Ride {
     TypeOfRide typeOfRide;
-    Location startLocation;
-    Location endLocation;
+    MyLocation startLocation;
+    MyLocation endLocation;
     Date startTime;
     Date endTime;
     String name;
@@ -16,7 +16,7 @@ public class Ride {
     String email;
     String driverId;
 
-    public Ride(TypeOfRide typeOfRide, Location startLocation, Location endLocation, Time startTime, Time endTime, String name, String celNumber, String email, String driverId) {
+    public Ride(TypeOfRide typeOfRide, MyLocation startLocation, MyLocation endLocation, Time startTime, Time endTime, String name, String celNumber, String email, String driverId) {
         this.typeOfRide = typeOfRide;
         this.startLocation = startLocation;
         this.endLocation = endLocation;
@@ -32,20 +32,20 @@ public class Ride {
 
     }
 
-    public Location getStartLocation() {
+    public MyLocation getStartLocation() {
 
         return startLocation;
     }
 
-    public void setStartLocation(Location startLocation) {
+    public void setStartLocation(MyLocation startLocation) {
         this.startLocation = startLocation;
     }
 
-    public Location getEndLocation() {
+    public MyLocation   getEndLocation() {
         return endLocation;
     }
 
-    public void setEndLocation(Location endLocation) {
+    public void setEndLocation(MyLocation endLocation) {
         this.endLocation = endLocation;
     }
 

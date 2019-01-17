@@ -10,12 +10,24 @@ import java.util.List;
 
 public interface IDBManager {
     Void addDriver(final Driver driver);
+
     List<Ride> getNotTreatedRides();
+
     List<Ride> getFinishedRides();
+
     List<Ride> getDriversRides(Driver driver);
+
     List<Ride> getNotYetTreatedRidesWithGivenDest(Location destCity);
+
     List<Ride> getRidesByDate(Date date);
+
     List<Ride> getNotYetTreatedRidesWithGivenInDistance(Location drivers_given, float given_distance);
+
     List<Ride> getRidesByPrice(float price);
 
+    void rideIsBeingTreated(Ride ride) throws Exception;
+
+    void rideIsFinished(Ride ride) throws Exception;
+
+    Void updateRide(final Ride ride);
 }
