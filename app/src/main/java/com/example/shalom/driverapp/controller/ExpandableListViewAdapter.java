@@ -28,6 +28,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
     private List<Ride> originalRideList;
     private List<Ride> rideList;
     private String driversid;
+    Filter distanceFilter,cityFilter;
     private CurrentLocation location;
 
     public ExpandableListViewAdapter(Context context, List<Ride> rideList, String id) {
@@ -79,9 +80,9 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         Ride ride = (Ride) getGroup(groupPosition);
-        ExpandableListViewAdapter.ViewHolder viewHolder;
+        ExpandableListViewAdapter.ViewHolder1 viewHolder;
         if (convertView == null) {
-            viewHolder = new ExpandableListViewAdapter.ViewHolder();
+            viewHolder = new ExpandableListViewAdapter.ViewHolder1();
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.expandable_list_group, null);
             viewHolder.passenger_location = (TextView) convertView.findViewById(R.id.passenger_location);
@@ -89,11 +90,14 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
             convertView.setTag(viewHolder);
 
         } else {
-            viewHolder = (ExpandableListViewAdapter.ViewHolder) (convertView.getTag());
+            viewHolder = (ExpandableListViewAdapter.ViewHolder1) (convertView.getTag());
         }
         viewHolder.passenger_location.setText(location.getPlace(ride.getStartLocation(), context));
-        float distnace = ride.getStartLocation().distanceTo(location.locationA);
-        viewHolder.distance.setText(String.valueOf(distnace));
+        float distance = ride.getStartLocation().distanceTo(location.locationA);
+        distance /= 100;
+        int temp = (int)(distance);
+        distance = (float)(temp) / 10;
+        viewHolder.distance.setText(String.valueOf(distance)+ "KM");
 
         return convertView;
     }
@@ -170,7 +174,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
             }
         });
         return convertView;
-    }
+        }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -181,41 +185,95 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
         rideList = originalRideList;
     }
 
+
+    public Filter getDistanceFilter() {
+
+        if(distanceFilter == null)
+            distanceFilter = new Filter() {
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    FilterResults results = new FilterResults();
+                    if ((constraint == null) || (constraint.length() == 0)) {
+                        results.values = originalRideList;
+                        results.count = originalRideList.size();
+                    } else if (!Character.isDigit(constraint.charAt(constraint.length() - 1))) {
+                        results.values = rideList;
+                        results.count = rideList.size();
+                    } else {
+                        List<Ride> newRideList = new ArrayList<Ride>();
+
+                        for (Ride ride : rideList) {
+                            float distance = (ride.getStartLocation().distanceTo(location.locationA));
+                            distance /= 100;
+                            int temp = (int)(distance);
+                            distance = (float)(temp) / 10;
+                            if (distance <= Float.valueOf(constraint.toString()))
+                                newRideList.add(ride);
+                        }
+                        results.values = newRideList;
+                        results.count = newRideList.size();
+                    }
+                    return results;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    rideList = (List<Ride>) results.values;
+                    notifyDataSetChanged();
+                }
+            };;
+        return distanceFilter;
+
+
+    }
+
+    public Filter getCityFilter() {
+        if(cityFilter == null)
+            cityFilter = new Filter() {
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    FilterResults results = new FilterResults();
+                    if ((constraint == null) || (constraint.length() == 0)) {
+                        results.values = originalRideList;
+                        results.count = originalRideList.size();
+                    }
+                    else {
+                        List<Ride> newRideList = new ArrayList<Ride>();
+                        for (Ride ride : originalRideList) {
+                            String ridelo = CurrentLocation.getCity(ride.getEndLocation(), context);
+                            if (constraint.toString().toString().equals(ridelo.toString()))
+                                newRideList.add(ride);
+                        }
+
+                        //  newRideList=DBManagerFactory.getBL().getNotYetTreatedRidesWithGivenDest(constraint.toString(),context);
+                        results.values = newRideList;
+                        results.count = newRideList.size();
+                        if (newRideList.size() == 0)
+                        {
+                            results.values = rideList;
+                            results.count = rideList.size();
+                        }
+                    }
+                    return results;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    rideList = (List<Ride>) results.values;
+                    notifyDataSetChanged();
+
+                }
+
+
+            };
+        return cityFilter;
+
+    }
     @Override
     public Filter getFilter() {
 
-        return new Filter() {
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults results = new FilterResults();
-                if ((constraint == null) || (constraint.length() == 0)) {
-                    results.values = originalRideList;
-                    results.count = originalRideList.size();
-                } else if (!Character.isDigit(constraint.charAt(constraint.length() - 1))) {
-                    results.values = rideList;
-                    results.count = rideList.size();
-                } else {
-                    List<Ride> newRideList = new ArrayList<Ride>();
-                    for (Ride ride : rideList) {
-                        float distance = (ride.getStartLocation().distanceTo(location.locationA));
-                        if (distance <= Float.valueOf(constraint.toString()))
-                            newRideList.add(ride);
-                    }
-                    results.values = newRideList;
-                    results.count = newRideList.size();
-                }
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                rideList = (List<Ride>) results.values;
-            }
-
-
-        };
+        return getDistanceFilter();
     }
 
-    public class ViewHolder {
+    public class ViewHolder1 {
         TextView passenger_location;
         TextView distance;
     }
@@ -229,5 +287,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
         Button emailButton;
         Button takeRideButton;
     }
+
 }
+
 

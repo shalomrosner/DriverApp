@@ -107,6 +107,22 @@ public class CurrentLocation {
         }
         return "IOException ...";
     }
+    public static String getCity(Location location, Context context) {
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> list = null;
+        try {
+            list = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (list != null & list.size() > 0) {
+                Address address = list.get(0);
+                return (String) address.getLocality();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "IOException ...";
+    }
+
   /*  private void getLocation() {
 
         //     Check the SDK version and whether the permission is already granted or not.

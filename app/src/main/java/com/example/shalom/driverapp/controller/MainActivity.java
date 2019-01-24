@@ -1,9 +1,8 @@
 package com.example.shalom.driverapp.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,31 +10,48 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Toast;
 
 import com.example.shalom.driverapp.R;
+import com.example.shalom.driverapp.model.backend.DBManagerFactory;
+import com.example.shalom.driverapp.model.datasource.NotifyDataChange;
+import com.example.shalom.driverapp.model.entities.Driver;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String driverId;
     String driverEmail;
+    Driver driver;
     String driverPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        DBManagerFactory.getBL().notifyToDriverList(new NotifyDataChange<List<Driver>>() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void OnDataChanged(List<Driver> drivers) {
+                Intent intent = getIntent();
+                driverEmail = intent.getExtras().getString("driver email");
+                driverPassword = intent.getExtras().getString("driver password");
+                for (Driver driver1 : drivers) {
+
+                    if (driver1.getEmail().matches(driverEmail) && driver1.getPassword().matches(driverPassword)) {
+                        driverId = driver1.getId();
+                        driver = driver1;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+
             }
         });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -44,6 +60,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        HomeFragment homeFragment = new HomeFragment();
+        homeFragment.getIntance(driver);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
     }
 
     @Override
@@ -58,10 +77,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -84,22 +103,24 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_home) {
+            HomeFragment homeFragment = new HomeFragment();
+            homeFragment.getIntance(driver);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
+        } else if (id == R.id.nav_finished) {
+            finishedRidesFragment finishedRidesFragment1 = new finishedRidesFragment();
+            finishedRidesFragment1.getIntance(driverId);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, finishedRidesFragment1).commit();
+        } else if (id == R.id.nav_available) {
 
-        } else if (id == R.id.nav_slideshow) {
+            availableRidesFragment availableRidesFragment1 = new availableRidesFragment();
+            availableRidesFragment1.getIntance(driverId);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, availableRidesFragment1).commit();
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_date) {
-
-        }
-        else if (id == R.id.nav_distance) {
-            availableRidesFragment availableRidesFragment = new availableRidesFragment();
-            availableRidesFragment.getIntance(driverId);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,availableRidesFragment).commit();
-
+        } else if (id == R.id.nav_leave) {
+            Toast.makeText(getApplicationContext(), "goodbye", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

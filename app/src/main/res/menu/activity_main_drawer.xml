@@ -3,39 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
 
     <item android:title="Drivers rides">
         <menu>
             <item
-                android:id="@+id/nav_date"
-                android:icon="@drawable/ic_date"
-                android:title="By date" />
+                android:id="@+id/nav_home"
+                android:icon="@drawable/ic_taxi_driver"
+                android:title="Taxi's details" />
             <item
-                android:id="@+id/nav_price"
-                android:icon="@drawable/ic_price"
-                android:title="By price" />
+                android:id="@+id/nav_available"
+                android:icon="@drawable/ic_available"
+                android:title="Available rides" />
             <item
-                android:id="@+id/nav_distance"
-                android:icon="@drawable/ic_menu_send"
-                android:title="By distance" />
+                android:id="@+id/nav_finished"
+                android:icon="@drawable/ic_finished"
+                android:title="Finished rides" />
+            <item
+                android:id="@+id/nav_leave"
+                android:icon="@drawable/ic_leave"
+                android:title="Exit program" />
+
         </menu>
     </item>
 

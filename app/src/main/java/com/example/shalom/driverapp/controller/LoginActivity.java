@@ -99,9 +99,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+
                             if (task.isSuccessful()) {
+                              //  Intent intent = getIntent();
                                 StoreData();
-                                Intent loginScreen = new Intent(LoginActivity.this, MainActivity.class);
+                                Intent loginScreen = new Intent(LoginActivity.this, MainActivity.class).putExtra("driver email",etEmail.getText().toString()).putExtra("driver password",etPassword.getText().toString());
                                 startActivity(loginScreen);
                             } else {
                                 Toast.makeText(getApplicationContext(), "Error Username or Password are incorrect", Toast.LENGTH_LONG).show();

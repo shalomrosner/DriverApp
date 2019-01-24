@@ -29,7 +29,12 @@ public class Ride {
     }
 
     public Ride() {
-
+        this.typeOfRide = TypeOfRide.available;
+        this.email = "";
+        this.name = "";
+        this.endLocation = new MyLocation();
+        this.startLocation = new MyLocation();
+        this.celNumber = "";
     }
 
     public MyLocation getStartLocation() {

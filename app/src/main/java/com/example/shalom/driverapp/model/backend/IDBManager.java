@@ -1,33 +1,33 @@
 package com.example.shalom.driverapp.model.backend;
 
+import android.content.Context;
 import android.location.Location;
 
 import com.example.shalom.driverapp.model.entities.Driver;
 import com.example.shalom.driverapp.model.entities.Ride;
 
-import java.util.Date;
 import java.util.List;
 
 public interface IDBManager {
     Void addDriver(final Driver driver);
 
     List<Ride> getNotTreatedRides();
-
+    List<Ride> getRidesInProgress();
     List<Ride> getFinishedRides();
 
-    List<Ride> getDriversRides(Driver driver);
+    List<Ride> getDriversRides(final String driverId);
 
-    List<Ride> getNotYetTreatedRidesWithGivenDest(Location destCity);
-
-    List<Ride> getRidesByDate(Date date);
+     List<Ride> getNotYetTreatedRidesWithGivenDest(final String destCity, final Context context);
+    List<Ride> getRidesByDate(final String date);
 
     List<Ride> getNotYetTreatedRidesWithGivenInDistance(Location drivers_given, float given_distance);
 
-    List<Ride> getRidesByPrice(float price);
+    List<Ride> getRidesByPrice(final float price);
 
     void rideIsBeingTreated(Ride ride) throws Exception;
 
     void rideIsFinished(Ride ride) throws Exception;
 
     Void updateRide(final Ride ride);
+
 }

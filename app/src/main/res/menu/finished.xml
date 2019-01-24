@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_date"
+        android:orderInCategory="100"
+        android:title="by date"
+        android:icon="@drawable/ic_date"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_price"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_price"
+        android:title="By price" />
+    <item
+        android:id="@+id/action_finished_distance"
+        android:icon="@drawable/ic_distance"
+        android:orderInCategory="100"
+        android:title="by distance"
+        app:showAsAction="never" />
+
+</menu>

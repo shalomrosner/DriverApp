@@ -1,7 +1,9 @@
 package com.example.shalom.driverapp.model.datasource;
 
+import android.content.Context;
 import android.location.Location;
 
+import com.example.shalom.driverapp.model.backend.CurrentLocation;
 import com.example.shalom.driverapp.model.backend.IDBManager;
 import com.example.shalom.driverapp.model.entities.Driver;
 import com.example.shalom.driverapp.model.entities.Ride;
@@ -12,11 +14,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DBManager_Firebase implements IDBManager {
+
     public interface Action<T> {
         void onSuccess(T obj);
 
@@ -25,11 +28,6 @@ public class DBManager_Firebase implements IDBManager {
         void onProgress(String status, double percent);
     }
 
-    public interface NotifyDataChange<T> {
-        void OnDataChanged(T obj);
-
-        void onFailure(Exception exception);
-    }
 
     private static DatabaseReference RidesRef, DriversRef;
     public  List<Ride> rideList= new ArrayList<>();
@@ -67,47 +65,109 @@ public class DBManager_Firebase implements IDBManager {
         });
         return rideList;
     }
+    @Override
+    public List<Ride> getRidesInProgress() {
+        boolean flag = true;
+        notifyToRideList(new NotifyDataChange<List<Ride>>() {
+            @Override
+            public void OnDataChanged(List<Ride> notifyRides) {
+                rideList = notifyRides;
+                for (Ride ride : rideList) {
+                    if (ride.getTypeOfRide() != TypeOfRide.occupied)
+                        rideList.remove(ride);
+                }
+            }
+            @Override
+            public void onFailure(Exception exception) {
 
+            }
+        });
+        return rideList;
+    }
     @Override
     public List<Ride> getFinishedRides() {
-        List<Ride> FinishedRides = new ArrayList<>();
-        for (Ride ride : rideList) {
-            if (ride.getTypeOfRide() == TypeOfRide.finished)
-                FinishedRides.add(ride);
-        }
-        return FinishedRides;
+        boolean flag = true;
+        notifyToRideList(new NotifyDataChange<List<Ride>>() {
+            @Override
+            public void OnDataChanged(List<Ride> notifyRides) {
+                rideList = notifyRides;
+                for (Ride ride : rideList) {
+                    if (ride.getTypeOfRide() != TypeOfRide.finished)
+                        rideList.remove(ride);
+                }
+            }
+            @Override
+            public void onFailure(Exception exception) {
+
+            }
+        });
+        return rideList;
+
     }
 
     @Override
-    public List<Ride> getDriversRides(Driver driver) {
-        List<Ride> DriversRides = new ArrayList<>();
-        for (Ride ride : rideList) {
-            if (ride.getDriverId() == driver.getId())
-                DriversRides.add(ride);
-        }
-        return DriversRides;
+    public List<Ride> getDriversRides(final String driverId) {
+        boolean flag = true;
+        notifyToRideList(new NotifyDataChange<List<Ride>>() {
+            @Override
+            public void OnDataChanged(List<Ride> notifyRides) {
+                rideList = notifyRides;
+                for (Ride ride : rideList) {
+                    if (ride.getTypeOfRide() != TypeOfRide.finished || !ride.getDriverId().equals(driverId))
+                        rideList.remove(ride);
+                }
+            }
+            @Override
+            public void onFailure(Exception exception) {
+
+            }
+        });
+        return rideList;
     }
 
     @Override
-    public List<Ride> getNotYetTreatedRidesWithGivenDest(Location destCity) {
+    public List<Ride> getNotYetTreatedRidesWithGivenDest(final String destCity, final Context context) {
+        boolean flag = true;
+        notifyToRideList(new NotifyDataChange<List<Ride>>() {
+            @Override
+            public void OnDataChanged(List<Ride> notifyRides) {
+                rideList = notifyRides;
+                for (Ride ride : rideList)
+                {
+                    String ridelo = CurrentLocation.getCity(ride.getEndLocation(),context);
+                    if (ride.getTypeOfRide() != TypeOfRide.available || !destCity.toString().equals( ridelo.toString()))
+                        rideList.remove(ride);
+                }
+            }
+            @Override
+            public void onFailure(Exception exception) {
 
-        List<Ride> NotYetTreatedRidesWithGivenDest = new ArrayList<>();
-        for (Ride ride : rideList) {
-            if (destCity == ride.getEndLocation())
-                NotYetTreatedRidesWithGivenDest.add(ride);
-        }
-        return NotYetTreatedRidesWithGivenDest;
+            }
+        });
+        return rideList;
+
     }
 
     @Override
-    public List<Ride> getRidesByDate(Date date) {
-        List<Ride> RidesByDate = new ArrayList<>();
-        for (Ride ride : rideList) {
-            if (ride.getStartTime().getMonth() == date.getMonth() &&
-                    ride.getStartTime().equals(date.getDate()))
-                RidesByDate.add(ride);
-        }
-        return RidesByDate;
+    public List<Ride> getRidesByDate(final String date) {
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        boolean flag = true;
+        notifyToRideList(new NotifyDataChange<List<Ride>>() {
+            @Override
+            public void OnDataChanged(List<Ride> notifyRides) {
+                rideList = notifyRides;
+                for (Ride ride : rideList) {
+                    String temp= simpleDateFormat.format(ride.getEndTime());
+                    if (ride.getTypeOfRide() != TypeOfRide.finished || !temp.toString().equals(date))
+                        rideList.remove(ride);
+                }
+            }
+            @Override
+            public void onFailure(Exception exception) {
+
+            }
+        });
+        return rideList;
     }
 
     @Override
@@ -127,15 +187,27 @@ public class DBManager_Firebase implements IDBManager {
 
 
     @Override
-    public List<Ride> getRidesByPrice(float price) {
+    public List<Ride> getRidesByPrice(final float price) {
 
-        List<Ride> RidesByPrice = getNotTreatedRides();
-        for (Ride ride : RidesByPrice) {
-            double ridepay = (ride.getStartLocation().distanceTo(ride.getEndLocation()) / 1000) * 5;
-            if (ridepay != price)
-                RidesByPrice.remove(ride);
-        }
-        return RidesByPrice;
+        boolean flag = true;
+        notifyToRideList(new NotifyDataChange<List<Ride>>() {
+            @Override
+            public void OnDataChanged(List<Ride> notifyRides) {
+                rideList = notifyRides;
+                for (Ride ride : rideList)
+                {
+                    double ridepay = 12+(ride.getStartLocation().distanceTo(ride.getEndLocation()) / 1000) * 5;
+                    if (ridepay > price)
+                        rideList.remove(ride);
+                }
+            }
+            @Override
+            public void onFailure(Exception exception) {
+
+            }
+        });
+        return rideList;
+
     }
 
     @Override
@@ -152,7 +224,6 @@ public class DBManager_Firebase implements IDBManager {
         else
             throw new Exception("the ride has not started!");
     }
-
     @Override
     public Void updateRide(final Ride toUpdate) {
         final String key = (toUpdate.getCelNumber());
@@ -160,14 +231,9 @@ public class DBManager_Firebase implements IDBManager {
         return null;
     }
 
-
-
-
-
-
     private  ChildEventListener rideRefChildEventListener;
 
-    public  void notifyToRideList(final NotifyDataChange<List<Ride>> notifyDataChange) {
+    public void notifyToRideList(final NotifyDataChange<List<Ride>> notifyDataChange) {
         if (notifyDataChange != null) {
             if (rideRefChildEventListener != null) {
                 notifyDataChange.onFailure(new Exception("first unNotify ride list"));

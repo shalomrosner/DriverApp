@@ -35,13 +35,25 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/communication/ic_message_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_flag_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
                                         </value>
                                       </entry>
                                       <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="paddingPercent" value="5" />
+                                                <entry key="trimmed" value="true" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="text">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
@@ -56,9 +68,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="imageAsset" value="C:\Users\shalom\Desktop\id.png" />
-                                      <entry key="outputName" value="ic_message" />
-                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\shalom\Desktop\wait_for_taxi.png" />
+                                      <entry key="outputName" value="ic_flag" />
+                                      <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="000000" />
                                     </map>
                                   </option>
@@ -68,21 +81,31 @@
                             <entry key="launcher">
                               <value>
                                 <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="foregroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="scalingPercent" value="112" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundColor" value="060203" />
                                       <entry key="backgroundImage" value="C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Android Studio" />
-                                      <entry key="foregroundImage" value="C:\Users\shalom\Desktop\driver.jpg" />
+                                      <entry key="foregroundImage" value="C:\Users\shalom\Desktop\15745.jpg" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
@@ -91,6 +114,11 @@
                 </map>
               </option>
             </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState />
           </value>
         </entry>
       </map>
