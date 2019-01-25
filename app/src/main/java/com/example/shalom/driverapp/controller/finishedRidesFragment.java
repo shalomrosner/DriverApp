@@ -79,7 +79,7 @@ public class finishedRidesFragment extends Fragment {
         final Context context = this.getContext();
         linearLayoutdate =view.findViewById(R.id.layout_date_filter);
         dateButton = view.findViewById(R.id.Date_picker);
-        ridelist = DBManagerFactory.getBL().getDriversRides(driversid);
+        ridelist = DBManagerFactory.getBL().getDriversFinishedRides(driversid);
         DBManagerFactory.getBL().notifyToRideList(new NotifyDataChange<List<Ride>>() {
             @Override
             public void OnDataChanged(List<Ride> obj) {

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login"
+    android:background="@drawable/logiInpic"
     android:orientation="vertical"
     android:paddingLeft="18dp"
     android:paddingRight="18dp">
@@ -74,7 +74,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#f9d7db" />
+                android:background="@id/loginbackgroud" />
 
             <CheckBox
                 android:id="@+id/remember_me_CheckBox"

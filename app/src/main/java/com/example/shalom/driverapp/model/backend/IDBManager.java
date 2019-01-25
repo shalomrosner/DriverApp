@@ -12,8 +12,8 @@ public interface IDBManager {
     Void addDriver(final Driver driver);
 
     List<Ride> getNotTreatedRides();
-    List<Ride> getRidesInProgress();
-    List<Ride> getFinishedRides();
+    List<Ride> getDriversRidesInProgress(final String driverId);
+    List<Ride> getDriversFinishedRides(final String driverId);
 
     List<Ride> getDriversRides(final String driverId);
 

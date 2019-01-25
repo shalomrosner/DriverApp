@@ -66,14 +66,14 @@ public class DBManager_Firebase implements IDBManager {
         return rideList;
     }
     @Override
-    public List<Ride> getRidesInProgress() {
+    public List<Ride> getDriversRidesInProgress(final String driverId) {
         boolean flag = true;
         notifyToRideList(new NotifyDataChange<List<Ride>>() {
             @Override
             public void OnDataChanged(List<Ride> notifyRides) {
                 rideList = notifyRides;
                 for (Ride ride : rideList) {
-                    if (ride.getTypeOfRide() != TypeOfRide.occupied)
+                    if (ride.getTypeOfRide() != TypeOfRide.occupied && driverId != ride.getDriverId() )
                         rideList.remove(ride);
                 }
             }
@@ -85,14 +85,14 @@ public class DBManager_Firebase implements IDBManager {
         return rideList;
     }
     @Override
-    public List<Ride> getFinishedRides() {
+    public List<Ride> getDriversFinishedRides(final String driverId){
         boolean flag = true;
         notifyToRideList(new NotifyDataChange<List<Ride>>() {
             @Override
             public void OnDataChanged(List<Ride> notifyRides) {
                 rideList = notifyRides;
                 for (Ride ride : rideList) {
-                    if (ride.getTypeOfRide() != TypeOfRide.finished)
+                    if (ride.getTypeOfRide() != TypeOfRide.finished && driverId != ride.getDriverId() )
                         rideList.remove(ride);
                 }
             }
@@ -113,7 +113,7 @@ public class DBManager_Firebase implements IDBManager {
             public void OnDataChanged(List<Ride> notifyRides) {
                 rideList = notifyRides;
                 for (Ride ride : rideList) {
-                    if (ride.getTypeOfRide() != TypeOfRide.finished || !ride.getDriverId().equals(driverId))
+                    if ( !ride.getDriverId().equals(driverId))
                         rideList.remove(ride);
                 }
             }

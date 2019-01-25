@@ -40,6 +40,7 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
         location.getLocation(context);
 
     }
+
     @Override
     public int getViewTypeCount() {
         return getCount();
@@ -84,8 +85,8 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         viewHolder.timeEndOfRide.setText(simpleDateFormat.format(ride.getEndTime()).toString());
-        double ridepay = (ride.getStartLocation().distanceTo(ride.getEndLocation()) / 1000) * 5;
-        viewHolder.Payment.setText(String.valueOf(ridepay)+ " $");
+        double ridepay = 12 + (ride.getStartLocation().distanceTo(ride.getEndLocation()) / 1000) * 5;
+        viewHolder.Payment.setText(String.valueOf(ridepay) + " $");
         viewHolder.AddContacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,7 +154,7 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
 
 
     public Filter getDistanceFilter() {
-        if(distanceFilter == null)
+        if (distanceFilter == null)
             distanceFilter = new Filter() {
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults results = new FilterResults();
@@ -169,8 +170,8 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
                         for (Ride ride : rideList) {
                             float distance = (ride.getStartLocation().distanceTo(location.locationA));
                             distance /= 100;
-                            int temp = (int)(distance);
-                            distance = (float)(temp) / 10;
+                            int temp = (int) (distance);
+                            distance = (float) (temp) / 10;
                             if (distance <= Float.valueOf(constraint.toString()))
                                 newRideList.add(ride);
                         }
@@ -185,13 +186,15 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
                     rideList = (List<Ride>) results.values;
                     notifyDataSetChanged();
                 }
-            };;
+            };
+        ;
         return distanceFilter;
 
 
     }
+
     public Filter getDateFilter() {
-        if(dateFilter == null)
+        if (dateFilter == null)
             dateFilter = new Filter() {
                 protected FilterResults performFiltering(CharSequence constraint) {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -199,13 +202,12 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
                     if ((constraint == null) || (constraint.length() == 0)) {
                         results.values = originalRideList;
                         results.count = originalRideList.size();
-                    }
-                    else {
-                       //  List<Ride> newRideList = DBManagerFactory.getBL().getRidesByDate(constraint.toString());
+                    } else {
+                        //  List<Ride> newRideList = DBManagerFactory.getBL().getRidesByDate(constraint.toString());
                         List<Ride> newRideList = new ArrayList<Ride>();
                         for (Ride ride : originalRideList) {
-                            String temp= simpleDateFormat.format(ride.getEndTime());
-                            if ( temp.toString().equals(constraint.toString()))
+                            String temp = simpleDateFormat.format(ride.getEndTime());
+                            if (temp.toString().equals(constraint.toString()))
                                 newRideList.add(ride);
                         }
                         results.values = newRideList;
@@ -226,38 +228,38 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
             };
         return dateFilter;
     }
+
     public Filter getPaymentFilter() {
-        if(priceFilter == null)
-            priceFilter =  new Filter() {
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults results = new FilterResults();
-                if ((constraint == null) || (constraint.length() == 0)) {
-                    results.values = originalRideList;
-                    results.count = originalRideList.size();
-                }
-                else {
-                 //   List<Ride> newRideList = DBManagerFactory.getBL().getRidesByPrice(Float.valueOf(constraint.toString()));
-                    List<Ride> newRideList = new ArrayList<Ride>();
-                    for (Ride ride : originalRideList) {
-                        double ridepay = (ride.getStartLocation().distanceTo(ride.getEndLocation()) / 1000) * 5;
-                        if (ridepay <= Float.valueOf(constraint.toString()))
-                            newRideList.add(ride);
+        if (priceFilter == null)
+            priceFilter = new Filter() {
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    FilterResults results = new FilterResults();
+                    if ((constraint == null) || (constraint.length() == 0)) {
+                        results.values = originalRideList;
+                        results.count = originalRideList.size();
+                    } else {
+                        //   List<Ride> newRideList = DBManagerFactory.getBL().getRidesByPrice(Float.valueOf(constraint.toString()));
+                        List<Ride> newRideList = new ArrayList<Ride>();
+                        for (Ride ride : originalRideList) {
+                            double ridepay = 12 + (ride.getStartLocation().distanceTo(ride.getEndLocation()) / 1000) * 5;
+                            if (ridepay <= Float.valueOf(constraint.toString()))
+                                newRideList.add(ride);
+                        }
+                        results.values = newRideList;
+                        results.count = newRideList.size();
                     }
-                    results.values = newRideList;
-                    results.count = newRideList.size();
+                    return results;
                 }
-                return results;
-            }
 
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                rideList = (List<Ride>) results.values;
-                notifyDataSetChanged();
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    rideList = (List<Ride>) results.values;
+                    notifyDataSetChanged();
 
-            }
+                }
 
 
-        };
+            };
         return priceFilter;
 
     }
@@ -275,7 +277,7 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
     private class ViewHolder {
 
         protected FloatingActionButton AddContacts;
-        private TextView distance,timeEndOfRide, Payment;
+        private TextView distance, timeEndOfRide, Payment;
 
     }
 }

@@ -3,12 +3,9 @@ package com.example.shalom.driverapp.controller;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
 
 import com.example.shalom.driverapp.R;
@@ -22,7 +19,6 @@ import java.util.List;
 public class progressRidesFragment extends Fragment {
     progressExpandableListViewAdapter rideExpandableListAdapter;
     View view;
-    EditText filter;
     String driversid;
     private ExpandableListView lv;
     public static List<Ride> ridelist = new ArrayList<>();
@@ -34,30 +30,8 @@ public class progressRidesFragment extends Fragment {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_progress_rides, container, false);
         lv = (ExpandableListView) view.findViewById(R.id.ride_lv_progress);
-        filter = (EditText) view.findViewById(R.id.filter_progress);
-        lv.setTextFilterEnabled(true);
-        filter.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count < before) {
-                    rideExpandableListAdapter.resetToPreList();
-                }
-
-                rideExpandableListAdapter.getDistanceFilter().filter(s.toString());
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
         final Context context = this.getContext();
-        ridelist = DBManagerFactory.getBL().getRidesInProgress();
+        ridelist = DBManagerFactory.getBL().getDriversRidesInProgress(driversid);
         DBManagerFactory.getBL().notifyToRideList(new NotifyDataChange<List<Ride>>() {
             @Override
             public void OnDataChanged(List<Ride> obj) {
@@ -72,7 +46,6 @@ public class progressRidesFragment extends Fragment {
 
             }
         });
-
         return view;
     }
 
