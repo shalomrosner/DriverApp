@@ -21,8 +21,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="Current Price:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#000"
-                android:textSize="20sp" />
+                android:textColor="#000" />
 
             <TextView
                 android:id="@+id/price_progress"
@@ -43,8 +42,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="Current Location:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#000"
-                android:textSize="20sp" />
+                android:textColor="#000" />
 
             <TextView
                 android:id="@+id/current_location_progress"
@@ -57,13 +55,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/finishRide"
                 android:layout_width="142dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_flag" />

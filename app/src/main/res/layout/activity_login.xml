@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/logiInpic"
+    android:background="@drawable/loginpic"
     android:orientation="vertical"
     android:paddingLeft="18dp"
     android:paddingRight="18dp">
@@ -30,12 +30,21 @@
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="140dp"
                     android:layout_weight="1"
                     android:paddingTop="20dp"
-                    app:srcCompat="@drawable/taxi_login" />
+                    app:srcCompat="@drawable/ic_get_passenger" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Get Taxi"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/username_s"
@@ -49,7 +58,7 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:textColorHint="#fff" />
+                android:textColorHint="#000000" />
 
             <View
                 android:layout_width="match_parent"
@@ -69,7 +78,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:textColorHint="#fff" />
+                android:textColorHint="#000000" />
 
             <View
                 android:layout_width="match_parent"
@@ -83,7 +92,7 @@
                 android:layout_marginTop="8dp"
                 android:padding="8dp"
                 android:text="Remember me "
-                android:textColor="#fff" />
+                android:textColor="#000000" />
 
 
             <Button
@@ -96,24 +105,25 @@
                 android:background="@drawable/button"
                 android:padding="16dp"
                 android:text="@string/log_in"
-                android:textStyle="bold"
                 android:textAllCaps="false"
-                android:textSize="18sp" />
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/sign_up_button_s"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button"
                 android:clickable="true"
                 android:padding="16dp"
                 android:text="@string/sign_up"
                 android:textAllCaps="false"
-                android:textColor="#fff"
-                android:textSize="18sp" />
+                android:textColor="#FFf"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

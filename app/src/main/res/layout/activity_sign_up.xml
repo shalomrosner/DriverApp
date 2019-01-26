@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login"
+    android:background="@drawable/loginpic"
     tools:context=".controller.Sign_upActivity">
 
     <EditText
@@ -68,6 +68,7 @@
         android:layout_marginLeft="7dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="7dp"
+        android:layout_marginTop="20dp"
         android:drawableLeft="@drawable/ic_person"
         android:ems="10"
         android:hint="Full_name"

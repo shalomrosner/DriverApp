@@ -26,7 +26,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Name:"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/Name"
@@ -37,6 +38,7 @@
                 android:inputType="textPersonName"
                 android:text="Name"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="18sp"
                 tools:layout_editor_absoluteX="128dp"
                 tools:layout_editor_absoluteY="0dp" />
 
@@ -54,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Phone:"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/phone"
@@ -65,6 +68,7 @@
                 android:inputType="textPersonName"
                 android:text="Phone"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="18sp"
                 tools:layout_editor_absoluteX="128dp"
                 tools:layout_editor_absoluteY="0dp" />
 
@@ -82,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Destination:"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/destination"
@@ -93,6 +98,7 @@
                 android:inputType="textPersonName"
                 android:text="Destination"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="18sp"
                 tools:layout_editor_absoluteX="128dp"
                 tools:layout_editor_absoluteY="0dp" />
         </LinearLayout>
