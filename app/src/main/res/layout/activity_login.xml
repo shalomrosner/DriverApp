@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Get Taxi"
+                android:text="@string/get_taxi"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
                 android:textSize="24sp" />
 
@@ -54,7 +54,7 @@
                 android:drawableLeft="@drawable/ic_person"
                 android:drawablePadding="12dp"
                 android:ems="10"
-                android:hint="E-mail"
+                android:hint="@string/e_mail"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:padding="8dp"
@@ -83,7 +83,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@id/loginbackgroud" />
+                 />
 
             <CheckBox
                 android:id="@+id/remember_me_CheckBox"

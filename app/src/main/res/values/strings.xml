@@ -17,7 +17,7 @@
 
     <string name="fill_password">please fill the password field!</string>
 
-    <string name="fill_userName">please fill the user name field!</string>
+    <string name="fill_Name">please fill the name field!</string>
 
     <string name="fill_creditCard">please fill the credit card field!</string>
 
@@ -37,4 +37,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_ride_added">A new ride is available for you take</string>
+    <string name="e_mail">E-mail</string>
+    <string name="get_taxi">Get Taxi</string>
+    <string name="get_taxi">Get Taxi</string>
 </resources>

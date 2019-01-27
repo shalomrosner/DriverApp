@@ -41,17 +41,6 @@
                 android:foregroundGravity="center"
                 android:src="@drawable/ic_taxi" />
 
-            <TextView
-                android:id="@+id/welcome_Name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ems="10"
-                android:gravity="center"
-                android:text="Enjoy your ride"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textSize="20sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

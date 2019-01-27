@@ -57,7 +57,7 @@ public class Sign_upActivity extends AppCompatActivity implements View.OnClickLi
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
             //  id.setErrorEnabled(true);
-            id.setError(getString(R.string.contains));
+            email.setError(getString(R.string.contains));
             email.requestFocus();
             Toast.makeText(this, R.string.error_email, Toast.LENGTH_LONG).show();
             return false;
@@ -116,10 +116,10 @@ public class Sign_upActivity extends AppCompatActivity implements View.OnClickLi
     private boolean validateFullName() {
         String UserNameInput = fullName.getText().toString();
         if (UserNameInput.isEmpty()) {
-            fullName.setError(getString(R.string.fill_userName));
+            fullName.setError(getString(R.string.fill_Name));
             //  fullName.setErrorEnabled(true);
             fullName.requestFocus();
-            Toast.makeText(this, getString(R.string.fill_userName), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.fill_Name), Toast.LENGTH_LONG).show();
             return false;
         } else {
             //   fullName.setErrorEnabled(false);
