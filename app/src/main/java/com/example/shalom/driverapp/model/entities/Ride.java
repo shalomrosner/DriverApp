@@ -1,7 +1,5 @@
 package com.example.shalom.driverapp.model.entities;
 
-import com.example.shalom.driverapp.model.backend.MyLocation;
-
 import java.sql.Time;
 import java.util.Date;
 
@@ -15,6 +13,7 @@ public class Ride {
     String celNumber;
     String email;
     String driverId;
+    private Date whenLoadToFirebase;
 
     public Ride(TypeOfRide typeOfRide, MyLocation startLocation, MyLocation endLocation, Time startTime, Time endTime, String name, String celNumber, String email, String driverId) {
         this.typeOfRide = typeOfRide;
@@ -111,5 +110,11 @@ public class Ride {
     public void setDriverId(String driverId) {
         this.driverId = driverId;
     }
+    public Date getWhenLoadToFirebase() {
+        return whenLoadToFirebase;
+    }
 
+    public void setWhenLoadToFirebase(Date whenLoadToFirebase) {
+        this.whenLoadToFirebase = whenLoadToFirebase;
+    }
 }

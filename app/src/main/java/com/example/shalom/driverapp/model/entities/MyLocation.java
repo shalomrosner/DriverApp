@@ -1,4 +1,4 @@
-package com.example.shalom.driverapp.model.backend;
+package com.example.shalom.driverapp.model.entities;
 
 
 import android.location.Location;

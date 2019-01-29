@@ -10,7 +10,7 @@
         android:color="@android:color/transparent" />
 
     <stroke
-        android:color="#FFFFFF"
+        android:color="#000"
         android:width="2dp" />
 
     <size

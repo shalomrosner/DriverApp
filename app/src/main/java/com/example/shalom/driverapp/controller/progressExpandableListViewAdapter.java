@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.shalom.driverapp.R;
 import com.example.shalom.driverapp.model.backend.CurrentLocation;
 import com.example.shalom.driverapp.model.backend.DBManagerFactory;
-import com.example.shalom.driverapp.model.backend.MyLocation;
+import com.example.shalom.driverapp.model.entities.MyLocation;
 import com.example.shalom.driverapp.model.entities.Ride;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class progressExpandableListViewAdapter extends BaseExpandableListAdapter
         this.rideList = rideList;
         this.originalRideList = rideList;
         location = new CurrentLocation(context);
-        location.getLocation(context);
+        location.getLocation();
 
     }
 
@@ -91,8 +91,8 @@ public class progressExpandableListViewAdapter extends BaseExpandableListAdapter
             viewHolder = (progressExpandableListViewAdapter.ViewHolder1) (convertView.getTag());
         }
         viewHolder.full_name.setText(ride.getName());
-        viewHolder.start_location.setText(location.getPlace(ride.getStartLocation(),context));
-        viewHolder.dest.setText(location.getPlace(ride.getEndLocation(),context));
+        viewHolder.start_location.setText(location.getPlace(ride.getStartLocation()));
+        viewHolder.dest.setText(location.getPlace(ride.getEndLocation()));
 
         return convertView;
     }
@@ -113,7 +113,7 @@ public class progressExpandableListViewAdapter extends BaseExpandableListAdapter
         } else {
             viewHolder = (progressExpandableListViewAdapter.ViewHolder2) (convertView.getTag());
         }
-        viewHolder.current_location.setText(location.getPlace(location.locationA,context));
+        viewHolder.current_location.setText(location.getPlace(location.locationA));
         double ridepay = 12+(ride.getStartLocation().distanceTo(location.locationA) / 1000) * 5;
         viewHolder.Payment.setText(String.valueOf(ridepay)+ " $");
         viewHolder.FinishRide.setOnClickListener(new View.OnClickListener() {

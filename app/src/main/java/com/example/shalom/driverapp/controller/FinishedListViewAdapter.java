@@ -30,14 +30,14 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
     private List<Ride> originalRideList;
     private List<Ride> rideList;
     Filter distanceFilter, priceFilter, dateFilter;
-    private CurrentLocation location;
+    CurrentLocation location;
 
     public FinishedListViewAdapter(Context context, List<Ride> rideList) {
         this.context = context;
         this.rideList = rideList;
         this.originalRideList = rideList;
         location = new CurrentLocation(context);
-        location.getLocation(context);
+        location.getLocation();
 
     }
 
@@ -77,12 +77,14 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
             convertView = layoutInflater.inflate(R.layout.finish_ride_item, null);
             viewHolder.AddContacts = (FloatingActionButton) convertView.findViewById(R.id.AddContacts);
             viewHolder.timeEndOfRide = (TextView) convertView.findViewById(R.id.end_of_ride);
+            viewHolder.finishName = (TextView) convertView.findViewById(R.id.finishName_);
             viewHolder.Payment = (TextView) convertView.findViewById(R.id.paymentInput);
             convertView.setTag(viewHolder);
 
         } else {
             viewHolder = (FinishedListViewAdapter.ViewHolder) (convertView.getTag());
         }
+        viewHolder.finishName.setText(ride.getName());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         viewHolder.timeEndOfRide.setText(simpleDateFormat.format(ride.getEndTime()).toString());
         double ridepay = 12 + (ride.getStartLocation().distanceTo(ride.getEndLocation()) / 1000) * 5;
@@ -120,7 +122,7 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
                 ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                         .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
                         .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE)
-                        .withValue(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS, location.getPlace(ride.getStartLocation(), context))
+                        .withValue(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS, CurrentLocation.getPlace(ride.getStartLocation()))
                         .withValue(ContactsContract.CommonDataKinds.StructuredPostal.TYPE, ContactsContract.CommonDataKinds.StructuredPostal.TYPE_WORK)
                         .build());
                 // SAVE CONTACT IN BCR Structure
@@ -277,7 +279,7 @@ public class FinishedListViewAdapter extends BaseAdapter implements Filterable {
     private class ViewHolder {
 
         protected FloatingActionButton AddContacts;
-        private TextView distance, timeEndOfRide, Payment;
+        private TextView finishName, timeEndOfRide, Payment;
 
     }
 }

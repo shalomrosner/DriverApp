@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shalom.driverapp.R;
 import com.example.shalom.driverapp.model.backend.CurrentLocation;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter implements Filterable {
     private Context context;
     private List<Ride> originalRideList;
@@ -37,7 +37,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
         this.driversid = id;
         this.originalRideList = rideList;
         location = new CurrentLocation(context);
-        location.getLocation(context);
+        location.getLocation();
 
     }
 
@@ -92,7 +92,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
         } else {
             viewHolder = (ExpandableListViewAdapter.ViewHolder1) (convertView.getTag());
         }
-        viewHolder.passenger_location.setText(location.getPlace(ride.getStartLocation(), context));
+        viewHolder.passenger_location.setText(location.getPlace(ride.getStartLocation()));
         float distance = ride.getStartLocation().distanceTo(location.locationA);
         distance /= 100;
         int temp = (int)(distance);
@@ -115,12 +115,13 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
             viewHolder2.dest = (TextView) convertView.findViewById(R.id.destination);
             viewHolder2.callButton = (Button) convertView.findViewById(R.id.call_ButtonID);
             viewHolder2.messageButton = (Button) convertView.findViewById(R.id.message_ButtonID);
+            viewHolder2.emailButton = (Button) convertView.findViewById(R.id.E_mail_ButtonID);
             viewHolder2.takeRideButton = (Button) convertView.findViewById(R.id.take_ButtonID);
             convertView.setTag(viewHolder2);
         } else {
             viewHolder2 = (ExpandableListViewAdapter.ViewHolder2) (convertView.getTag());
         }
-        viewHolder2.dest.setText(location.getPlace(ride.getEndLocation(), context));
+        viewHolder2.dest.setText(location.getPlace(ride.getEndLocation()));
         viewHolder2.phoneNumber.setText(ride.getCelNumber());
         viewHolder2.full_name.setText(ride.getName());
         viewHolder2.callButton.setOnClickListener(new View.OnClickListener() {
@@ -149,26 +150,44 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter impleme
                 });
             }
         });
+        viewHolder2.emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder2.emailButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                                "mailto",ride.getEmail(), null));
+                        context.startActivity(Intent.createChooser(emailIntent, "choose an email client"));
+                    }
+                });
+            }
+        });
         viewHolder2.takeRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewHolder2.takeRideButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        try {
-                            DBManagerFactory.getBL().rideIsBeingTreated(ride);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        Date date = Calendar.getInstance().getTime();
-                        ride.setStartTime(date);
-                        ride.setDriverId(driversid);
-                        new AsyncTask<Void,Void,Void>() {
-                            @Override
-                            protected Void doInBackground(Void... voids) {
-                                return DBManagerFactory.getBL().updateRide(ride);
+                        if (DBManagerFactory.getBL().getDriversRidesInProgress(driversid).size() == 0) {
+                            try {
+                                DBManagerFactory.getBL().rideIsBeingTreated(ride);
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        }.execute();
+                            Date date = Calendar.getInstance().getTime();
+                            ride.setStartTime(date);
+                            ride.setDriverId(driversid);
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+                                    return DBManagerFactory.getBL().updateRide(ride);
+                                }
+                            }.execute();
+
+                        }
+                        else
+                            Toast.makeText(context, "You already have a ride", Toast.LENGTH_LONG).show();
                     }
                 });
             }

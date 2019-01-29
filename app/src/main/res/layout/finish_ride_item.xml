@@ -12,6 +12,31 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Name:"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/finishName_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -22,7 +47,7 @@
                 android:text="Finish time:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#000"
-                android:textSize="18spp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/end_of_ride"
@@ -63,9 +88,10 @@
                 android:id="@+id/AddContacts"
                 android:layout_width="142dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="right|end"
                 android:layout_margin="@dimen/fab_margin"
                 android:layout_weight="1"
+
                 app:srcCompat="@drawable/ic_contact" />
         </LinearLayout>
 

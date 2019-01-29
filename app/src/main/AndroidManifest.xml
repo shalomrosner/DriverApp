@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- Needed only if your app targets Android 5.0 (API level 21) or higher. -->
     <uses-feature android:name="android.hardware.location.gps" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -30,16 +29,15 @@
             android:name=".controller.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <receiver android:name=".model.backend.MyReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name=".model.backend.MyService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
-    <receiver
-        android:name=".model.backend.MyReceiver">
-        <intent-filter>
-            <action android:name="android.intent.action.BOOT_COMPLETED" >
-            </action>
-        </intent-filter>
-    </receiver>
-    <service
-        android:name=".model.backend.MyService"
-        android:enabled="true"
-        android:exported="true" />
+
 </manifest>
